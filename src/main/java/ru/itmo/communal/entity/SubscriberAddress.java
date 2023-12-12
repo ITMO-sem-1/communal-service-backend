@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class SubscriberAddress {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String accountNumber;
     private String geoLocation;

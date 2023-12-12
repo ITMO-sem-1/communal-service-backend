@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="subscriber_adress")
+@Table(name="subscriber_address")
 public class SubscriberAddress {
 
     @Id

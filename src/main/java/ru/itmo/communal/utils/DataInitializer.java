@@ -6,10 +6,15 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import ru.itmo.communal.entity.PublicUtility;
 import ru.itmo.communal.entity.SubscriberAddress;
+import ru.itmo.communal.entity.Tariff;
+import ru.itmo.communal.entity.TariffUtilityRelation;
 import ru.itmo.communal.repository.PublicUtilityRepository;
 import ru.itmo.communal.repository.SubscriberAddressRepository;
+import ru.itmo.communal.repository.TariffRepository;
+import ru.itmo.communal.repository.TariffUtilityRepository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -17,12 +22,15 @@ public class DataInitializer implements CommandLineRunner {
 
     private final SubscriberAddressRepository subscriberAddressRepository;
     private final PublicUtilityRepository publicUtilityRepository;
+    private final TariffRepository tariffRepository;
+    private final TariffUtilityRepository tariffUtilityRepository;
 
     @Autowired
-    public DataInitializer(SubscriberAddressRepository subscriberAddressRepository, PublicUtilityRepository publicUtilityRepository) {
+    public DataInitializer(SubscriberAddressRepository subscriberAddressRepository, PublicUtilityRepository publicUtilityRepository, TariffRepository tariffRepository, TariffUtilityRepository tariffUtilityRepository) {
         this.subscriberAddressRepository = subscriberAddressRepository;
         this.publicUtilityRepository = publicUtilityRepository;
-
+        this.tariffRepository = tariffRepository;
+        this.tariffUtilityRepository = tariffUtilityRepository;
     }
 
     @Override
@@ -48,6 +56,20 @@ public class DataInitializer implements CommandLineRunner {
             if (!publicUtilityRepository.exists(Example.of(utility))) {
                 publicUtilityRepository.save(utility);
             }
+        }
+
+        // Создание тарифа
+
+        Tariff tariff = Tariff.builder().name("DefaultTariff").build();
+
+
+        tariff = tariffRepository.save(tariff);
+
+        List<PublicUtility> defaultUtilities = publicUtilityRepository.findAll();
+
+        for (var utility: defaultUtilities) {
+            var relation = TariffUtilityRelation.builder().tariff(tariff).utility(utility).build();
+            tariffUtilityRepository.save(relation);
         }
     }
 }

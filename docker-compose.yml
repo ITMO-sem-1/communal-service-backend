@@ -9,3 +9,8 @@ services:
       POSTGRES_USER: username
       POSTGRES_PASSWORD: password
       POSTGRES_DB: communal
+    volumes:
+      - communal_pg:/var/lib/postgresql/data
+volumes:
+  communal_pg:
+      external: true

@@ -11,13 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tariff")
-public class Tariff {
+@Table(name = "tariff_utility")
+public class TariffUtilityRelation {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
-
-    private String name;
-
-
+    @OneToOne
+    private Tariff tariff;
+    @OneToOne
+    private PublicUtility utility;
 }

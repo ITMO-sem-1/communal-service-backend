@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,4 +24,6 @@ public class SubscriberAddress {
     @ManyToOne
     private Tariff tariff;
 
+    @OneToMany
+    private List<PublicUtility> utilitiesEnabled;
 }

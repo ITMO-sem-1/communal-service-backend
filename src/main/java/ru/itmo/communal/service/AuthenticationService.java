@@ -14,6 +14,7 @@ import ru.itmo.communal.config.security.JwtService;
 import ru.itmo.communal.controller.dto.AuthenticationRequest;
 import ru.itmo.communal.controller.dto.AuthenticationResponse;
 import ru.itmo.communal.controller.dto.RegisterRequest;
+import ru.itmo.communal.entity.Role;
 import ru.itmo.communal.entity.User;
 import ru.itmo.communal.repository.UserRepository;
 import ru.itmo.communal.service.token.Token;
@@ -37,7 +38,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(Role.USER)
                 .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);

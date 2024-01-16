@@ -6,8 +6,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.itmo.communal.controller.dto.ChangePasswordRequest;
 import ru.itmo.communal.controller.dto.LinkAddressRequest;
+import ru.itmo.communal.controller.dto.UtilityRequest;
+import ru.itmo.communal.entity.PublicUtility;
 import ru.itmo.communal.entity.SubscriberAddress;
 import ru.itmo.communal.entity.User;
+import ru.itmo.communal.repository.PublicUtilityRepository;
 import ru.itmo.communal.repository.SubscriberAddressRepository;
 import ru.itmo.communal.repository.UserRepository;
 
@@ -22,6 +25,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository repository;
     private final SubscriberAddressRepository subscriberAddressRepository;
+    private final PublicUtilityRepository publicUtilityRepository;
+
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
@@ -49,7 +54,44 @@ public class UserService {
         if (address.isEmpty()) {
             throw new IllegalStateException("Попытка присвоить пользователю несуществующий адрес");
         }
-        user.setAddresses(List.of(address.get()));
+        user.getAddresses().add(address.get());
         repository.save(user);
+    }
+
+    public List<SubscriberAddress> getAddress(Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return repository.findById(user.getId()).map(User::getAddresses)
+                .orElseThrow(() -> new IllegalStateException("Нет данного пользовтеля"));
+
+    }
+
+    public void unlinkAddress(LinkAddressRequest request, Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        Optional<SubscriberAddress> address = subscriberAddressRepository.findById(request.getSubscriberAddressId());
+        if (address.isEmpty()) {
+            throw new IllegalStateException("Попытка присвоить пользователю несуществующий адрес");
+        }
+        user.getAddresses().remove(address.get());
+        repository.save(user);
+    }
+
+    public List<PublicUtility> getServices(Integer addressId) {
+        return subscriberAddressRepository.findById(addressId).map(SubscriberAddress::getUtilitiesEnabled)
+                .orElseThrow(() ->new IllegalStateException("Несуществующий адрес"));
+    }
+
+    public List<PublicUtility> addService(Integer addressId, UtilityRequest utilityRequest) {
+        SubscriberAddress subscriberAddress = subscriberAddressRepository.findById(addressId).orElseThrow(() -> new IllegalStateException("Несуществующий адрес"));
+        subscriberAddress.getUtilitiesEnabled().add(publicUtilityRepository.findById(utilityRequest.getUtilityId()).get());
+        subscriberAddressRepository.save(subscriberAddress);
+        return subscriberAddress.getUtilitiesEnabled();
+    }
+
+    public List<PublicUtility> deleteService(Integer addressId, UtilityRequest utilityRequest) {
+        SubscriberAddress subscriberAddress = subscriberAddressRepository.findById(addressId).orElseThrow(() -> new IllegalStateException("Несуществующий адрес"));
+        subscriberAddress.getUtilitiesEnabled().remove(publicUtilityRepository.findById(utilityRequest.getUtilityId()).get());
+        subscriberAddressRepository.save(subscriberAddress);
+        return subscriberAddress.getUtilitiesEnabled();
     }
 }

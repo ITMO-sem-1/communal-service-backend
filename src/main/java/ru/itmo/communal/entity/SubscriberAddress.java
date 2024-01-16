@@ -19,5 +19,7 @@ public class SubscriberAddress {
     private Integer id;
     private String accountNumber;
     private String geoLocation;
+    @ManyToOne
+    private Tariff tariff;
 
 }

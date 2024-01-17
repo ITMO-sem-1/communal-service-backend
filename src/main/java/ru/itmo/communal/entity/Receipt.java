@@ -19,6 +19,8 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private long sum;
+    @Transient
+    private long credit;
 
     @OneToMany
     private List<TotalCalculations> utilityCalculations;

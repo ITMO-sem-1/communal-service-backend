@@ -33,7 +33,7 @@ public class TotalCalculations {
     @ManyToOne
     private SubscriberAddress subscriberAddress;
 
-    @OneToOne
+    @ManyToOne
     @Nullable
     private MeterReading meterReading;
 }

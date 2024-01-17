@@ -13,4 +13,5 @@ public interface MeterReadingRepository extends JpaRepository<MeterReading, Inte
 //    List<MeterReading> findMeterReadingsByAddressAndDatetimeGreaterThanEqualAndDatetimeLessThanEqualOrderByDatetimeDesc(SubscriberAddress address, LocalDateTime from, LocalDateTime to);
     @Query(value = "select m from MeterReading m where m.address = ?1 and m.datetime = (select MAX(m1.datetime) from MeterReading m1 where m.address = m1.address and m1.datetime between ?3 and ?4 and m1.utility=?2)")
     MeterReading getLastMeterReadingForAddress(SubscriberAddress address, PublicUtility utility, LocalDateTime from, LocalDateTime to);
+    List<MeterReading> findAllByDatetimeGreaterThanEqualAndDatetimeLessThanAndAddress(LocalDateTime from, LocalDateTime to, SubscriberAddress subscriberAddress);
 }

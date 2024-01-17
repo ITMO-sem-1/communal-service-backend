@@ -1,7 +1,11 @@
 package ru.itmo.communal.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -14,9 +18,22 @@ public class TotalCalculations {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int sum;
+    private Long sum;
     @Enumerated
     private CalculationType calculationType;
 
+    private LocalDateTime datetime;
 
+    @ManyToOne
+    private PublicUtility utility;
+
+//    @ManyToOne
+//    private Receipt receipt;
+
+    @ManyToOne
+    private SubscriberAddress subscriberAddress;
+
+    @ManyToOne
+    @Nullable
+    private MeterReading meterReading;
 }

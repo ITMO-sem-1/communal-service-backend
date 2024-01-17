@@ -21,4 +21,6 @@ public class TariffUtilityRelation {
     private Tariff tariff;
     @OneToOne
     private PublicUtility utility;
+
+    private Long price;
 }

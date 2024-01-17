@@ -2,6 +2,7 @@ package ru.itmo.communal.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,7 @@ public class BillController {
 
     @Autowired
     private final TotalCalculationsRepository totalCalculationsRepository;
-    @RequestMapping("/{address_id}")
+    @GetMapping("/{address_id}")
     BillResponse getBill(@PathVariable Integer address_id) {
         Receipt bill = receiptRepository.findFirstBySubscriberAddressOrderByDateTimeDesc(
                 subscriberAddressRepository.findById(address_id).orElseThrow()
@@ -47,4 +48,5 @@ public class BillController {
                 .credit(debt)
                 .build();
     }
+
 }

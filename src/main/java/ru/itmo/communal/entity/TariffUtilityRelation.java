@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class TariffUtilityRelation {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
     private Tariff tariff;

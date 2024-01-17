@@ -12,6 +12,7 @@ import ru.itmo.communal.repository.TotalCalculationsRepository;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/bill")

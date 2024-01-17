@@ -12,6 +12,7 @@ import ru.itmo.communal.repository.TotalCalculationsRepository;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/bill")
@@ -31,6 +32,9 @@ public class BillController {
                 subscriberAddressRepository.findById(address_id).orElseThrow()
         );
         Long debt = receiptRepository.findAllByPaidAndSubscriberAddress(false, subscriberAddressRepository.findById(address_id).orElseThrow()).stream().map(Receipt::getSum).reduce(0L, (a, b) -> a + b);
+        if (!bill.isPaid()) {
+            debt = debt - bill.getSum();
+        }
         return BillResponse
                 .builder()
                 .date(bill.getDateTime())
@@ -45,6 +49,7 @@ public class BillController {
                                         .build()).toList()
                 )
                 .credit(debt)
+                .isPaid(bill.isPaid())
                 .build();
     }
 

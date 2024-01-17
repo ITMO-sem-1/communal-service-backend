@@ -15,4 +15,5 @@ public class BillResponse {
     private Integer addrId;
     private LocalDateTime date;
     private List<UtilsCalcResponse> utils;
+    private Boolean isPaid;
 }

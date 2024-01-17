@@ -16,7 +16,9 @@ import ru.itmo.communal.repository.UserRepository;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +60,11 @@ public class UserService {
         repository.save(user);
     }
 
+    public List<SubscriberAddress> getAllAddress() {
+        return subscriberAddressRepository.findAll();
+
+    }
+
     public List<SubscriberAddress> getAddress(Principal connectedUser) {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         return repository.findById(user.getId()).map(User::getAddresses)
@@ -72,7 +79,7 @@ public class UserService {
         if (address.isEmpty()) {
             throw new IllegalStateException("Попытка присвоить пользователю несуществующий адрес");
         }
-        user.getAddresses().remove(address.get());
+        user.setAddresses(user.getAddresses().stream().filter(subscriberAddress -> !Objects.equals(subscriberAddress.getId(), address.get().getId())).collect(Collectors.toList()));
         repository.save(user);
     }
 

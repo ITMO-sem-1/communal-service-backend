@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -26,8 +27,8 @@ public class TotalCalculations {
     @ManyToOne
     private PublicUtility utility;
 
-    @ManyToOne
-    private Receipt receipt;
+//    @ManyToOne
+//    private Receipt receipt;
 
     @ManyToOne
     private SubscriberAddress subscriberAddress;
@@ -35,6 +36,4 @@ public class TotalCalculations {
     @OneToOne
     @Nullable
     private MeterReading meterReading;
-
-
 }

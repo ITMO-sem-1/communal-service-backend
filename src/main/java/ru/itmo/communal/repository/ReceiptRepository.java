@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     List<Receipt> findAllByPaidAndSubscriberAddress(boolean paid, SubscriberAddress subscriberAddress);
+
+    Receipt findFirstBySubscriberAddressOrderByDateTimeDesc(SubscriberAddress subscriberAddress);
 }

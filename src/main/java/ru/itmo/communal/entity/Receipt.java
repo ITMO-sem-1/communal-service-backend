@@ -1,8 +1,12 @@
 package ru.itmo.communal.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -20,6 +24,8 @@ public class Receipt {
     private List<TotalCalculations> utilityCalculations;
 
     private boolean paid;
+
+    private LocalDateTime dateTime;
 
     @ManyToOne
     private SubscriberAddress subscriberAddress;

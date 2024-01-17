@@ -46,6 +46,7 @@ public class TotalCalculationService {
                                             .calculationType(CalculationType.METER_READING_BASED)
                                             .datetime(LocalDateTime.now())
                                             .meterReading(nowCalcMeterReading)
+                                            .subscriberAddress(address)
                                             .sum((nowCalcMeterReading.getValue() - 0) * price)
                                             .build()
                             )
@@ -62,6 +63,7 @@ public class TotalCalculationService {
                                                 .builder()
                                                 .calculationType(CalculationType.MEAN)
                                                 .datetime(LocalDateTime.now())
+                                                .subscriberAddress(address)
                                                 .sum(prevCalc.getSum())
                                                 .build())
                         );
@@ -74,6 +76,7 @@ public class TotalCalculationService {
                                                 .calculationType(CalculationType.METER_READING_BASED)
                                                 .datetime(LocalDateTime.now())
                                                 .meterReading(nowCalcMeterReading)
+                                                .subscriberAddress(address)
                                                 .sum((nowCalcMeterReading.getValue() - prevCalcMeterReading.getValue()) * price)
                                                 .build())
                         );
@@ -95,6 +98,7 @@ public class TotalCalculationService {
                             )
                             .paid(false)
                             .subscriberAddress(address)
+                            .dateTime(LocalDateTime.now())
                             .build()
             );
         }

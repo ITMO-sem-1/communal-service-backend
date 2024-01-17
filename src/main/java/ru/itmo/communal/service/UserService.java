@@ -95,6 +95,10 @@ public class UserService {
         return subscriberAddress.getUtilitiesEnabled();
     }
 
+    public List<PublicUtility> getAllService() {
+        return publicUtilityRepository.findAll();
+    }
+
     public List<PublicUtility> deleteService(Integer addressId, UtilityRequest utilityRequest) {
         SubscriberAddress subscriberAddress = subscriberAddressRepository.findById(addressId).orElseThrow(() -> new IllegalStateException("Несуществующий адрес"));
         subscriberAddress.getUtilitiesEnabled().remove(publicUtilityRepository.findById(utilityRequest.getUtilityId()).get());

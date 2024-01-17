@@ -48,7 +48,7 @@ public class TotalCalculationService {
                                             .datetime(LocalDateTime.now())
                                             .meterReading(nowCalcMeterReading)
                                             .subscriberAddress(address)
-                                            .sum((nowCalcMeterReading.getValue() - 0) * price)
+                                            .sum(((nowCalcMeterReading == null ? 0: nowCalcMeterReading.getValue()) - 0) * price)
                                             .build()
                             )
                     );
@@ -80,7 +80,7 @@ public class TotalCalculationService {
                                                 .datetime(LocalDateTime.now())
                                                 .meterReading(nowCalcMeterReading)
                                                 .subscriberAddress(address)
-                                                .sum((nowCalcMeterReading.getValue() - prevCalcMeterReading.getValue()) * price)
+                                                .sum((nowCalcMeterReading.getValue() - (prevCalcMeterReading == null ? 0: prevCalcMeterReading.getValue())) * price)
                                                 .build())
                         );
                     }

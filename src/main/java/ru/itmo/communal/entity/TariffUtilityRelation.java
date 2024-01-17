@@ -17,9 +17,9 @@ public class TariffUtilityRelation {
     @Id
     @GeneratedValue
     private Integer id;
-    @OneToOne
+    @ManyToOne
     private Tariff tariff;
-    @OneToOne
+    @ManyToOne
     private PublicUtility utility;
 
     private Long price;

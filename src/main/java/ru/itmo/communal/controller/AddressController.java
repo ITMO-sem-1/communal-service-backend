@@ -9,10 +9,10 @@ import ru.itmo.communal.service.UserService;
 
 import java.security.Principal;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/addresses")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class AddressController {
     private final UserService userService;
 
@@ -24,6 +24,11 @@ public class AddressController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllAddresses() {
+        return ResponseEntity.ok().body(userService.getAllAddress());
     }
 
     @GetMapping

@@ -43,6 +43,7 @@ public class TotalCalculationService {
                             totalCalculationsRepository.save(
                                     TotalCalculations
                                             .builder()
+                                            .utility(utility)
                                             .calculationType(CalculationType.METER_READING_BASED)
                                             .datetime(LocalDateTime.now())
                                             .meterReading(nowCalcMeterReading)
@@ -61,6 +62,7 @@ public class TotalCalculationService {
                                 totalCalculationsRepository.save(
                                         TotalCalculations
                                                 .builder()
+                                                .utility(utility)
                                                 .calculationType(CalculationType.MEAN)
                                                 .datetime(LocalDateTime.now())
                                                 .subscriberAddress(address)
@@ -73,6 +75,7 @@ public class TotalCalculationService {
                                 totalCalculationsRepository.save(
                                         TotalCalculations
                                                 .builder()
+                                                .utility(utility)
                                                 .calculationType(CalculationType.METER_READING_BASED)
                                                 .datetime(LocalDateTime.now())
                                                 .meterReading(nowCalcMeterReading)

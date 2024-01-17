@@ -67,10 +67,10 @@ public class DataInitializer implements CommandLineRunner {
 
         List<PublicUtility> defaultUtilities = publicUtilityRepository.findAll();
 
-        for (var utility: defaultUtilities) {
-            var relation = TariffUtilityRelation.builder().tariff(tariff).utility(utility).build();
-            tariffUtilityRepository.save(relation);
-        }
+//        for (var utility: defaultUtilities) {
+//            var relation = TariffUtilityRelation.builder().tariff(tariff).utility(utility).build();
+//            tariffUtilityRepository.save(relation);
+//        }
     }
 }
 

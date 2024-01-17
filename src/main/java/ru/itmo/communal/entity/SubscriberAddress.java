@@ -24,6 +24,6 @@ public class SubscriberAddress {
     @ManyToOne
     private Tariff tariff;
 
-    @ManyToMany
+    @ManyToMany()
     private List<PublicUtility> utilitiesEnabled;
 }

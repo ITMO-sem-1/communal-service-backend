@@ -17,4 +17,5 @@ public interface MeterReadingRepository extends JpaRepository<MeterReading, Inte
     MeterReading getLastMeterReadingForAddress(SubscriberAddress address, PublicUtility utility, LocalDateTime from, LocalDateTime to);
 
     Optional<MeterReading> findFirstByAddressAndUtilityOrderByDatetimeDesc(SubscriberAddress address, PublicUtility utility);
+    List<MeterReading> findAllByDatetimeGreaterThanEqualAndDatetimeLessThanAndAddress(LocalDateTime from, LocalDateTime to, SubscriberAddress subscriberAddress);
 }

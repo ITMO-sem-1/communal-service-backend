@@ -90,7 +90,12 @@ public class UserService {
 
     public List<PublicUtility> addService(Integer addressId, UtilityRequest utilityRequest) {
         SubscriberAddress subscriberAddress = subscriberAddressRepository.findById(addressId).orElseThrow(() -> new IllegalStateException("Несуществующий адрес"));
-        subscriberAddress.getUtilitiesEnabled().add(publicUtilityRepository.findById(utilityRequest.getUtilityId()).get());
+        PublicUtility utility = publicUtilityRepository.findById(utilityRequest.getUtilityId()).get();
+        if (subscriberAddress.getUtilitiesEnabled()
+                .stream()
+                .noneMatch(publicUtility -> publicUtility.getName().equals(utility.getName()))) {
+            subscriberAddress.getUtilitiesEnabled().add(utility);
+        }
         subscriberAddressRepository.save(subscriberAddress);
         return subscriberAddress.getUtilitiesEnabled();
     }

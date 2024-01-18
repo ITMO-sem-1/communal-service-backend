@@ -6,9 +6,12 @@ import ru.itmo.communal.entity.SubscriberAddress;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     List<Receipt> findAllByPaidAndSubscriberAddress(boolean paid, SubscriberAddress subscriberAddress);
+
+    Optional<Receipt> findFirstByOrderByDateTimeDesc();
 
     Receipt findFirstBySubscriberAddressOrderByDateTimeDesc(SubscriberAddress subscriberAddress);
     List<Receipt> findAllByDateTimeGreaterThanEqualAndDateTimeLessThanAndSubscriberAddress(LocalDateTime from, LocalDateTime to, SubscriberAddress subscriberAddress);

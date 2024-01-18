@@ -62,8 +62,9 @@ public class DataInitializer implements CommandLineRunner {
 
         Tariff tariff = Tariff.builder().name("DefaultTariff").build();
 
-
-        tariff = tariffRepository.save(tariff);
+        if (tariffRepository.findAll().isEmpty()) {
+            tariff = tariffRepository.save(tariff);
+        }
 
         List<PublicUtility> defaultUtilities = publicUtilityRepository.findAll();
 

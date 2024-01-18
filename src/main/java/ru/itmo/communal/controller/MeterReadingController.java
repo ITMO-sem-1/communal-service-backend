@@ -41,9 +41,14 @@ public class MeterReadingController {
 
     @GetMapping("/last/{addrId}/{utilId}")
     public ResponseEntity<?> getLaseMeterReadings(@PathVariable Integer addrId, @PathVariable Integer utilId) {
-        SubscriberAddress address = subscriberAddressRepository.findById(addrId).orElseThrow(() -> new IllegalStateException("Несуществующий адрес"));
-        PublicUtility utility = publicUtilityRepository.findById(utilId).orElseThrow(() -> new IllegalStateException("Несуществующая услуга"));
-        MeterReading mr = meterReadingRepository.findFirstByAddressAndUtilityOrderByDatetimeDesc(address, utility).orElseThrow(() -> new IllegalStateException("нет ни одного показания"));
+        MeterReading mr;
+        try {
+            SubscriberAddress address = subscriberAddressRepository.findById(addrId).orElseThrow(() -> new IllegalStateException("Несуществующий адрес"));
+            PublicUtility utility = publicUtilityRepository.findById(utilId).orElseThrow(() -> new IllegalStateException("Несуществующая услуга"));
+            mr = meterReadingRepository.findFirstByAddressAndUtilityOrderByDatetimeDesc(address, utility).orElseThrow(() -> new IllegalStateException("нет ни одного показания"));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok().body(SubmitMeterReadingRequest.builder()
                 .addressId(addrId)
                 .utilityId(utilId)

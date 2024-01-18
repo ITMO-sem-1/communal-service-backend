@@ -18,7 +18,7 @@ public class TotalCalculations {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private Long sum;
+    private Double sum;
     @Enumerated
     private CalculationType calculationType;
 

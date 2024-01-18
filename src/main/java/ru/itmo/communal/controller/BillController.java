@@ -31,8 +31,8 @@ public class BillController {
     Receipt getBill(@PathVariable Integer address_id) {
         SubscriberAddress address = subscriberAddressRepository.findById(address_id).orElseThrow();
         Receipt bill = receiptRepository.findFirstBySubscriberAddressOrderByDateTimeDesc(address);
-        var i = 0 > 1? "123": 123;
-        Long debt = receiptRepository.findAllByPaidAndSubscriberAddress(false, subscriberAddressRepository.findById(address_id).orElseThrow()).stream().map(Receipt::getSum).reduce(0L, (a, b) -> a + b);
+        Double debt = receiptRepository.findAllByPaidAndSubscriberAddress(false, subscriberAddressRepository.findById(address_id).orElseThrow()).stream().map(Receipt::getSum).reduce(0.0, (a, b) -> a + b);
+        //bill may be null
         if (!bill.isPaid()) {
             debt = debt - bill.getSum();
         }
